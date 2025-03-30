@@ -1,5 +1,5 @@
 //
-//  SignUp.swift
+//  SignIn.swift
 //  Movies
 //
 //  Created by Artur Harutyunyan on 30.03.25.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct SignUp: View {
+struct SignIn: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isSecured: Bool = true
-    @Namespace private var animation
+
     var body: some View {
         ZStack {
             Image("BackgroundImage")
@@ -19,7 +19,7 @@ struct SignUp: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             VStack(alignment: .leading) {
-                Text("SIGN UP")
+                Text("SIGN IN")
                     .font(.custom("Poppins-Bold", size: 62))
                     .foregroundColor(.white)
 
@@ -56,9 +56,17 @@ struct SignUp: View {
                     .frame(height: 60)
                     .background(Color.customPurple)
                     .cornerRadius(8)
-
+                    HStack {
+                        Spacer()
+                        NavigationLink() {
+                            
+                        } label: {
+                            Text("Forgot Password?")
+                                .foregroundStyle(.white)
+                        }
+                    }
                     Button(action: {}) {
-                        Text("Sign Up")
+                        Text("Sign In")
                             .frame(maxWidth: .infinity, minHeight: 60)
                             .font(.system(size: 18))
                             .background(
@@ -71,7 +79,7 @@ struct SignUp: View {
                     NavigationLink() {
                         SignIn()
                     } label: {
-                        Text("Already have an account? Sign in")
+                        Text("Don't have an account? Sign Up")
                             .foregroundColor(.white)
                     }
                 }

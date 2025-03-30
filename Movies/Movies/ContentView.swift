@@ -7,14 +7,15 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ContentView: View {
     @EnvironmentObject private var authenticationManager: AuthenticationManager
+
     var body: some View {
-        ZStack {
-            Group {
-                if !authenticationManager.isAuthenticated {
-                    SignUp()
-                }
+        NavigationStack {
+            if !authenticationManager.isAuthenticated {
+                SignUp()
             }
         }
     }
