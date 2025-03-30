@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct MoviesApp: App {
+    @StateObject var authenticationManager = AuthenticationManager()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                ContentView()
+                    .environmentObject(authenticationManager)
+                    .preferredColorScheme(.dark)
+                    .previewInterfaceOrientation(.portrait)
+            }
         }
     }
 }
