@@ -12,7 +12,13 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            if !authenticationManager.isAuthenticated {
+            if authenticationManager.isAuthenticated {
+                if !authenticationManager.isEmailVerified {
+                    Verification()
+                } else {
+                    HomeView()
+                }
+            } else {
                 AuthenticationView()
             }
         }

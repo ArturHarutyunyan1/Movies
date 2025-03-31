@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
+    @EnvironmentObject private var authenticationManager: AuthenticationManager
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isSecured: Bool = true
@@ -19,6 +20,17 @@ struct SignUpView: View {
                 Text("SIGN UP")
                     .font(.custom("Poppins-Bold", size: 62))
                 Spacer()
+            }
+            if !authenticationManager.errorMessage.isEmpty {
+                HStack {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                    Text("\(authenticationManager.errorMessage)")
+                }
+                .padding()
+                .frame(width: geometry.size.width * 0.9)
+                .background(.red)
+                .cornerRadius(8)
+                .foregroundStyle(.white)
             }
             VStack {
                 HStack {
@@ -51,7 +63,7 @@ struct SignUpView: View {
                 .background(.customPurple)
                 .cornerRadius(8)
                 Button (action: {
-                    
+                    authenticationManager.signUp(email: email, password: password)
                 }, label: {
                     Text("Sign Up")
                         .font(.custom("Poppins-Medium", size: 18))
