@@ -42,3 +42,14 @@ struct Details: Codable {
     var vote_average: Double
     var vote_count: Int
 }
+
+struct Reviews: Codable {
+    struct Results: Codable {
+        var author: String
+        var rating: Double
+    }
+    var id: Int
+    var content: String
+    var results: [Results]
+    
+}

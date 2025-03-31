@@ -15,7 +15,7 @@ struct DetailsView: View {
             ScrollView (.vertical, showsIndicators: false) {
                 if let details = apiManager.details {
                     VStack {
-                        AsyncImage(url: URL(string: apiManager.posterPath + "/w780/" + details.backdrop_path)) {result in
+                        AsyncImage(url: URL(string: apiManager.posterPath + "/w1280/" + details.backdrop_path)) {result in
                             result.image?
                                 .resizable()
                                 .scaledToFit()
@@ -76,18 +76,7 @@ struct DetailsView: View {
                         }
                         Spacer()
                     }
-                    VStack {
-                        HStack {
-                            Text("Overview")
-                                .font(.custom("Poppins-Bold", size: 25))
-                            Spacer()
-                        }
-                        Text("\(details.overview)")
-                    }
-                    .padding()
-                    VStack {
-                        
-                    }
+                    TabViewModel(details: details)
                     Spacer()
                 }
             }
