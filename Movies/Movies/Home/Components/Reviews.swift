@@ -9,21 +9,24 @@ import SwiftUI
 
 struct ReviewsView: View {
     var reviews: Reviews
+    
     var body: some View {
-        VStack {
-            HStack {
-                Text("Reviews")
-                    .font(.custom("Poppins-Bold", size: 25))
-                Spacer()
-            }
-            VStack {
-                if reviews.results.count > 0 {
-                    ForEach(reviews.results, id: \.id) {review in
-                        reviewItem(author: review.author, content: review.content)
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Reviews")
+                .font(.custom("Poppins-Bold", size: 25))
+                .foregroundColor(.white)
+            
+            if reviews.results.count > 0 {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(reviews.results, id: \.id) { review in
+                            reviewItem(author: review.author, content: review.content)
+                        }
                     }
-                } else {
-                    Text("Nothing found")
                 }
+            } else {
+                Text("Nothing found")
+                    .foregroundColor(.white.opacity(0.7))
             }
         }
         .padding()
@@ -31,20 +34,16 @@ struct ReviewsView: View {
     
     @ViewBuilder
     private func reviewItem(author: String, content: String) -> some View {
-        VStack {
-            HStack {
-                VStack {
-                    HStack {
-                        Text("\(author)")
-                            .font(.custom("Poppins-Bold", size: 20))
-                        Spacer()
-                    }
-                    Text("\(content)")
-                        .font(.custom("Poppins-Medium", size: 18))
-                }
-            }
-            Rectangle()
-                .fill(.gray)
+        VStack(alignment: .leading, spacing: 8) {
+            Text(author)
+                .font(.custom("Poppins-Bold", size: 20))
+                .foregroundColor(.white)
+            Text(content)
+                .font(.custom("Poppins-Medium", size: 18))
+                .foregroundColor(.white.opacity(0.8))
         }
+        .padding()
+        .background(Color.white.opacity(0.1))
+        .cornerRadius(8)
     }
 }
