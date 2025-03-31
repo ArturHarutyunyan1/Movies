@@ -15,6 +15,7 @@ enum Tabs {
 
 struct TabViewModel: View {
     var details: Details
+    var reviews: Reviews
     @State private var chosenTab: Tabs = .overview
     
     var body: some View {
@@ -28,7 +29,7 @@ struct TabViewModel: View {
             case .overview:
                 Overview(details: details.overview)
             case .reviews:
-                Overview(details: details.overview)
+                ReviewsView(reviews: reviews)
             case .cast:
                 Overview(details: details.overview)
             }

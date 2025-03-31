@@ -18,6 +18,7 @@ enum ApiCallError: Error {
 class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var details: Details?
+    @Published var reviews: Reviews?
     @Published var errorMessage: String = ""
     @Published var posterPath: String
     private var apiKey: String
@@ -35,7 +36,7 @@ class ApiManager: ObservableObject {
     
     func makeRequest<T: Decodable>(endpoint: String, section: String, type: T.Type) async throws -> T {
         let urlString = "\(endpoint)\(section)?api_key=\(apiKey)&language=en-US&page=1"
-        
+        print(urlString)
         guard let url = URL(string: urlString) else {
             throw ApiCallError.invalidURL
         }
@@ -58,12 +59,16 @@ class ApiManager: ObservableObject {
             switch (apiError) {
             case .invalidResponse:
                 self.errorMessage = "Invalid response"
+                print(error.localizedDescription)
             case .decodingError:
                 self.errorMessage = "Error while decoding data"
+                print(error.localizedDescription)
             case .statusCodeError(let code):
                 self.errorMessage = "Something went wrong - \(code)"
+                print(error.localizedDescription)
             case .invalidURL:
                 self.errorMessage = "Invalid URL"
+                print(error.localizedDescription)
             }
         }
     }
@@ -83,6 +88,17 @@ class ApiManager: ObservableObject {
         do {
             let decodedData: Details = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(String(id))", type: Details.self)
             self.details = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getReviews(for id: Int) async {
+        do {
+            let decodedData: Reviews = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(id)/reviews", type: Reviews.self)
+            self.reviews = decodedData
+            print(self.reviews)
         } catch {
             handleError(error: error)
         }

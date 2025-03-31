@@ -76,7 +76,9 @@ struct DetailsView: View {
                         }
                         Spacer()
                     }
-                    TabViewModel(details: details)
+                    if let reviews = apiManager.reviews {
+                        TabViewModel(details: details, reviews: reviews)
+                    }
                     Spacer()
                 }
             }
@@ -89,7 +91,9 @@ struct DetailsView: View {
         .onAppear {
             Task {
                 apiManager.details = nil
+                apiManager.reviews = nil
                 await apiManager.getDetails(for: id)
+                await apiManager.getReviews(for: id)
             }
         }
     }

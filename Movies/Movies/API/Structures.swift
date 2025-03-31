@@ -44,12 +44,26 @@ struct Details: Codable {
 }
 
 struct Reviews: Codable {
-    struct Results: Codable {
+    struct ReviewResult: Codable {
+        struct AuthorDetails: Codable {
+            var name: String?
+            var username: String
+            var avatar_path: String?
+            var rating: Double?
+        }
+
         var author: String
-        var rating: Double
+        var author_details: AuthorDetails
+        var content: String
+        var created_at: String
+        var id: String
+        var updated_at: String
+        var url: String
     }
-    var id: Int
-    var content: String
-    var results: [Results]
     
+    var id: Int
+    var page: Int
+    var results: [ReviewResult]
+    var total_pages: Int
+    var total_results: Int
 }
