@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
 
 @main
 struct MoviesApp: App {
     @StateObject var authenticationManager = AuthenticationManager()
+    init () {
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
             NavigationView {

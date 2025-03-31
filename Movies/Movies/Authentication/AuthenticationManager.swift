@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
 
 class AuthenticationManager : ObservableObject {
+    @Published var user: User?
     @Published var isAuthenticated: Bool = false
     @Published var isEmailVerified: Bool = false
 }

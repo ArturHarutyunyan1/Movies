@@ -5,6 +5,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string></string>
+		<string>Poppins-Medium.ttf</string>
 		<string>Poppins-Bold.ttf</string>
 	</array>
 </dict>
