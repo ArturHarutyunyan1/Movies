@@ -67,3 +67,16 @@ struct Reviews: Codable {
     var total_pages: Int
     var total_results: Int
 }
+
+struct CastResults: Codable {
+    struct Cast: Codable {
+        var id: Int
+        var known_for_department: String
+        var name: String
+        var popularity: Double
+        var profile_path: String?
+        var character: String
+    }
+    var cast: [Cast]
+    var id: Int
+}

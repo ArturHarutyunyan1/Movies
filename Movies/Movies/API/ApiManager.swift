@@ -19,6 +19,7 @@ class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var details: Details?
     @Published var reviews: Reviews?
+    @Published var cast: CastResults?
     @Published var errorMessage: String = ""
     @Published var posterPath: String
     private var apiKey: String
@@ -98,7 +99,16 @@ class ApiManager: ObservableObject {
         do {
             let decodedData: Reviews = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(id)/reviews", type: Reviews.self)
             self.reviews = decodedData
-            print(self.reviews)
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getCast(for id: Int) async {
+        do {
+            let decodedData: CastResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(id)/credits", type: CastResults.self)
+            self.cast = decodedData
         } catch {
             handleError(error: error)
         }

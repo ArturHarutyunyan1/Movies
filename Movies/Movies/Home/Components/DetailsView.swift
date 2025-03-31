@@ -76,8 +76,8 @@ struct DetailsView: View {
                         }
                         Spacer()
                     }
-                    if let reviews = apiManager.reviews {
-                        TabViewModel(details: details, reviews: reviews)
+                    if let reviews = apiManager.reviews, let cast = apiManager.cast {
+                        TabViewModel(details: details, reviews: reviews, cast: cast)
                     }
                     Spacer()
                 }
@@ -92,8 +92,10 @@ struct DetailsView: View {
             Task {
                 apiManager.details = nil
                 apiManager.reviews = nil
+                apiManager.cast = nil
                 await apiManager.getDetails(for: id)
                 await apiManager.getReviews(for: id)
+                await apiManager.getCast(for: id)
             }
         }
     }
