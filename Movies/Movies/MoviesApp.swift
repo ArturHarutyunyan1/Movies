@@ -12,6 +12,7 @@ import FirebaseAuth
 @main
 struct MoviesApp: App {
     @StateObject var authenticationManager = AuthenticationManager()
+    @StateObject var apiManager = ApiManager()
     init () {
         FirebaseApp.configure()
     }
@@ -20,6 +21,7 @@ struct MoviesApp: App {
             NavigationView {
                 ContentView()
                     .environmentObject(authenticationManager)
+                    .environmentObject(apiManager)
                     .preferredColorScheme(.dark)
             }
         }
