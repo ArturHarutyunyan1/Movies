@@ -15,7 +15,14 @@ struct Cast: View {
 
     var body: some View {
         let columns = [GridItem(.adaptive(minimum: 100), spacing: 8)]
-        
+        VStack {
+            HStack {
+                Text("Cast")
+                    .font(.custom("Poppins-Bold", size: 25))
+                Spacer()
+            }
+        }
+        .padding()
         LazyVGrid(columns: columns, alignment: .leading) {
             ForEach(cast.cast.filter { $0.known_for_department == "Acting" && $0.profile_path != nil }, id: \.id) { member in
                 VStack {

@@ -17,11 +17,12 @@ struct TabViewModel: View {
     var details: Details
     var reviews: Reviews
     var cast: CastResults
+    var geometry: GeometryProxy
     @State private var chosenTab: Tabs = .overview
     
     var body: some View {
         VStack {
-            VStack {
+            HStack {
                 tabItem(title: "Overview", tab: .overview)
                 tabItem(title: "Reviews", tab: .reviews)
                 tabItem(title: "Cast", tab: .cast)
@@ -49,6 +50,7 @@ struct TabViewModel: View {
                     .frame(height: 2)
             }
         }
+        .frame(width: geometry.size.width * 0.3)
         .onTapGesture {
             withAnimation {
                 chosenTab = tab

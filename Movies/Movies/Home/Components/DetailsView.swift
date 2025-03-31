@@ -77,7 +77,9 @@ struct DetailsView: View {
                         Spacer()
                     }
                     if let reviews = apiManager.reviews, let cast = apiManager.cast {
-                        TabViewModel(details: details, reviews: reviews, cast: cast)
+                        VStack {
+                            TabViewModel(details: details, reviews: reviews, cast: cast, geometry: geometry)
+                        }
                     }
                     Spacer()
                 }
