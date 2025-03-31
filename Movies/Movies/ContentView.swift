@@ -12,14 +12,23 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            if authenticationManager.isAuthenticated {
-                if !authenticationManager.isEmailVerified {
-                    Verification()
-                } else {
-                    HomeView()
+            if authenticationManager.isLoading {
+                ZStack {
+                    Color.customPurple.ignoresSafeArea(.all)
+                    ProgressView()
+                        .tint(.white)
+                        .frame(width: 50, height: 50)
                 }
             } else {
-                AuthenticationView()
+                if authenticationManager.isAuthenticated {
+                    if !authenticationManager.isEmailVerified {
+                        Verification()
+                    } else {
+                        HomeView()
+                    }
+                } else {
+                    AuthenticationView()
+                }
             }
         }
     }

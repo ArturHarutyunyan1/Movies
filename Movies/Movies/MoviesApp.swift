@@ -21,7 +21,6 @@ struct MoviesApp: App {
                 ContentView()
                     .environmentObject(authenticationManager)
                     .preferredColorScheme(.dark)
-                    .previewInterfaceOrientation(.portrait)
             }
         }
     }
