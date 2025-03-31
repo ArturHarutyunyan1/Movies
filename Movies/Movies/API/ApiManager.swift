@@ -18,14 +18,18 @@ enum ApiCallError: Error {
 class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var errorMessage: String = ""
+    @Published var posterPath: String
     private var apiKey: String
     
     init() {
         guard let key = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String else {
             fatalError("API_KEY not found in Info.plist. Check your Secrets.xcconfig setup.")
         }
+        guard let poster = Bundle.main.object(forInfoDictionaryKey: "POSTER_PATH") as? String else {
+            fatalError("API_KEY not found in Info.plist. Check your Secrets.xcconfig setup.")
+        }
         self.apiKey = key
-        
+        self.posterPath = poster
     }
     
     func makeRequest<T: Decodable>(endpoint: String, section: String, type: T.Type) async throws -> T {

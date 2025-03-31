@@ -11,24 +11,13 @@ struct HomeView: View {
     @EnvironmentObject private var authenticationManager: AuthenticationManager
     @EnvironmentObject private var apiManager: ApiManager
     var body: some View {
-        VStack {
-            if !apiManager.errorMessage.isEmpty {
-                HStack {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                    Text("\(authenticationManager.errorMessage)")
-                }
-                .padding()
-                .background(.red)
-                .cornerRadius(8)
-                .foregroundStyle(.white)
+        GeometryReader {geometry in
+            ScrollView (.vertical, showsIndicators: false) {
+                PopularMovies(geometry: geometry)
             }
-            Button(action: {
-                authenticationManager.signOut()
-            }, label: {
-                Text("Log out")
-            })
         }
-        .onAppear {
+        .background(.customBlue)
+        .onAppear() {
             Task {
                 await apiManager.getPopularMovies()
             }
@@ -36,6 +25,3 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
-}

@@ -306,6 +306,8 @@
 				);
 				MARKETING_VERSION = 1.0;
 				NEW_SETTING = "";
+				NEW_SETTING1 = "";
+				POSTER_PATH = "https://image.tmdb.org/t/p/";
 				PRODUCT_BUNDLE_IDENTIFIER = arturharutyunyan.Movies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -341,6 +343,8 @@
 				);
 				MARKETING_VERSION = 1.0;
 				NEW_SETTING = "";
+				NEW_SETTING1 = "";
+				POSTER_PATH = "https://image.tmdb.org/t/p/";
 				PRODUCT_BUNDLE_IDENTIFIER = arturharutyunyan.Movies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
