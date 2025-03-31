@@ -17,6 +17,7 @@ enum ApiCallError: Error {
 @MainActor
 class ApiManager: ObservableObject {
     @Published var popular: Popular?
+    @Published var details: Details?
     @Published var errorMessage: String = ""
     @Published var posterPath: String
     private var apiKey: String
@@ -72,6 +73,16 @@ class ApiManager: ObservableObject {
         do {
             let decodedData: Popular = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "popular", type: Popular.self)
             self.popular = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getDetails(for id: Int) async {
+        do {
+            let decodedData: Details = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(String(id))", type: Details.self)
+            self.details = decodedData
         } catch {
             handleError(error: error)
         }

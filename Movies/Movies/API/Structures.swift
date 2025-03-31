@@ -21,3 +21,24 @@ struct Popular: Codable {
     }
     var results: [Results]
 }
+
+struct Details: Codable {
+    struct Genres: Codable {
+        var id: Int
+        var name: String
+    }
+    var backdrop_path: String
+    var genres: [Genres]
+    var id: Int
+    var origin_country: [String]
+    var original_language: String
+    var original_title: String
+    var overview: String
+    var poster_path: String
+    var release_date: String
+    var runtime: Int
+    var status: String
+    var tagline: String
+    var vote_average: Double
+    var vote_count: Int
+}

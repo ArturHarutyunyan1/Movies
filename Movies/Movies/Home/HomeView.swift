@@ -12,11 +12,14 @@ struct HomeView: View {
     @EnvironmentObject private var apiManager: ApiManager
     var body: some View {
         GeometryReader {geometry in
-            ScrollView (.vertical, showsIndicators: false) {
-                PopularMovies(geometry: geometry)
+            NavigationStack {
+                ScrollView (.vertical, showsIndicators: false) {
+                    PopularMovies(geometry: geometry)
+                }
+                .background(.customBlue)
             }
+            .background(.customBlue)
         }
-        .background(.customBlue)
         .onAppear() {
             Task {
                 await apiManager.getPopularMovies()

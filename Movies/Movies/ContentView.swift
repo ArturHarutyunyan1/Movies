@@ -14,7 +14,7 @@ struct ContentView: View {
         ZStack {
             if authenticationManager.isLoading {
                 ZStack {
-                    Color.customPurple.ignoresSafeArea(.all)
+                    Color.customBlue.ignoresSafeArea(.all)
                     ProgressView()
                         .tint(.white)
                         .frame(width: 50, height: 50)
