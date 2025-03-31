@@ -8,5 +8,8 @@
 import Foundation
 
 class ApiManager: ObservableObject {
-    
+    func a() {
+        let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String ?? "qwequeoiqueio"
+        print(apiKey)
+    }
 }

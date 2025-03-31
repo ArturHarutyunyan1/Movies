@@ -11,12 +11,10 @@
 		F3A7B11A2D998D8A00267CC9 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = F3A7B1192D998D8A00267CC9 /* FirebaseCore */; };
 		F3A7B11C2D998D8A00267CC9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = F3A7B11B2D998D8A00267CC9 /* FirebaseDatabase */; };
 		F3A7B11E2D998D8A00267CC9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F3A7B11D2D998D8A00267CC9 /* FirebaseFirestore */; };
-		F3F7C0552D9AD87C0091DA68 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F3F7C0542D9AD87C0091DA68 /* Secrets.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F3492CB02D994AF50008FAF9 /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3F7C0542D9AD87C0091DA68 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -58,7 +56,6 @@
 		F3492CA72D994AF50008FAF9 = {
 			isa = PBXGroup;
 			children = (
-				F3F7C0542D9AD87C0091DA68 /* Secrets.xcconfig */,
 				F3492CB22D994AF50008FAF9 /* Movies */,
 				F3492CB12D994AF50008FAF9 /* Products */,
 			);
@@ -143,7 +140,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3F7C0552D9AD87C0091DA68 /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +158,8 @@
 /* Begin XCBuildConfiguration section */
 		F3492CBC2D994AF60008FAF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = F3492CB22D994AF50008FAF9 /* Movies */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -225,6 +223,8 @@
 		};
 		F3492CBD2D994AF60008FAF9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = F3492CB22D994AF50008FAF9 /* Movies */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -281,7 +281,11 @@
 		};
 		F3492CBF2D994AF60008FAF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = F3492CB22D994AF50008FAF9 /* Movies */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
+				API_KEY = "$(API_KEY)";
+				"API_KEY[arch=*]" = "$(API_KEY)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -301,6 +305,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = arturharutyunyan.Movies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -311,7 +316,11 @@
 		};
 		F3492CC02D994AF60008FAF9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = F3492CB22D994AF50008FAF9 /* Movies */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
+				API_KEY = "$(API_KEY)";
+				"API_KEY[arch=*]" = "$(API_KEY)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -331,6 +340,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = arturharutyunyan.Movies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
