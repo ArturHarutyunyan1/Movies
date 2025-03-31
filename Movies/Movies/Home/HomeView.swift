@@ -12,7 +12,16 @@ struct HomeView: View {
     @EnvironmentObject private var apiManager: ApiManager
     var body: some View {
         VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            if !apiManager.errorMessage.isEmpty {
+                HStack {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                    Text("\(authenticationManager.errorMessage)")
+                }
+                .padding()
+                .background(.red)
+                .cornerRadius(8)
+                .foregroundStyle(.white)
+            }
             Button(action: {
                 authenticationManager.signOut()
             }, label: {
@@ -20,7 +29,9 @@ struct HomeView: View {
             })
         }
         .onAppear {
-            apiManager.a()
+            Task {
+                await apiManager.getPopularMovies()
+            }
         }
     }
 }

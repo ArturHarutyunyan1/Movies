@@ -8,7 +8,7 @@
 import Foundation
 
 struct Popular: Codable {
-    struct results: Codable {
+    struct Results: Codable {
         var id: Int
         var backdrop_path: String
         var genre_ids: [Int]
@@ -18,5 +18,5 @@ struct Popular: Codable {
         var vote_average: Double
         var vote_count: Int
     }
-    var Resulst: [results]
+    var results: [Results]
 }
