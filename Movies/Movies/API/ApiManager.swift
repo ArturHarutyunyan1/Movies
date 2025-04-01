@@ -20,6 +20,7 @@ class ApiManager: ObservableObject {
     @Published var details: Details?
     @Published var reviews: Reviews?
     @Published var cast: CastResults?
+    @Published var actor: ActorDetails?
     @Published var errorMessage: String = ""
     @Published var posterPath: String
     private var apiKey: String
@@ -35,8 +36,8 @@ class ApiManager: ObservableObject {
         self.posterPath = poster
     }
     
-    func makeRequest<T: Decodable>(endpoint: String, section: String, type: T.Type) async throws -> T {
-        let urlString = "\(endpoint)\(section)?api_key=\(apiKey)&language=en-US&page=1"
+    func makeRequest<T: Decodable>(endpoint: String, type: T.Type) async throws -> T {
+        let urlString = "\(endpoint)&language=en-US&page=1"
         print(urlString)
         guard let url = URL(string: urlString) else {
             throw ApiCallError.invalidURL
@@ -77,7 +78,7 @@ class ApiManager: ObservableObject {
     @MainActor
     func getPopularMovies() async {
         do {
-            let decodedData: Popular = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "popular", type: Popular.self)
+            let decodedData: Popular = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/popular?api_key=\(apiKey)", type: Popular.self)
             self.popular = decodedData
         } catch {
             handleError(error: error)
@@ -87,7 +88,7 @@ class ApiManager: ObservableObject {
     @MainActor
     func getDetails(for id: Int) async {
         do {
-            let decodedData: Details = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(String(id))", type: Details.self)
+            let decodedData: Details = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/\(String(id))?api_key=\(apiKey)", type: Details.self)
             self.details = decodedData
         } catch {
             handleError(error: error)
@@ -97,7 +98,7 @@ class ApiManager: ObservableObject {
     @MainActor
     func getReviews(for id: Int) async {
         do {
-            let decodedData: Reviews = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(id)/reviews", type: Reviews.self)
+            let decodedData: Reviews = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/\(id)/reviews?api_key=\(apiKey)", type: Reviews.self)
             self.reviews = decodedData
         } catch {
             handleError(error: error)
@@ -107,8 +108,20 @@ class ApiManager: ObservableObject {
     @MainActor
     func getCast(for id: Int) async {
         do {
-            let decodedData: CastResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/", section: "\(id)/credits", type: CastResults.self)
+            let decodedData: CastResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/\(id)/credits?api_key=\(apiKey)", type: CastResults.self)
             self.cast = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getActor(for name: String) async {
+        do {
+            let formattedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? name
+            let decodedData: ActorDetails = try await makeRequest(endpoint: "https://api.themoviedb.org/3/search/person?query=\(formattedName)&api_key=\(apiKey)", type: ActorDetails.self)
+            self.actor = decodedData
+            print(self.actor ?? "NIGGER")
         } catch {
             handleError(error: error)
         }

@@ -7,43 +7,58 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct Cast: View {
     @EnvironmentObject private var apiManager: ApiManager
+    @Namespace private var animation
     var cast: CastResults
-
     var body: some View {
-        let columns = [GridItem(.adaptive(minimum: 100), spacing: 8)]
         VStack {
             HStack {
                 Text("Cast")
                     .font(.custom("Poppins-Bold", size: 25))
                 Spacer()
             }
-        }
-        .padding()
-        LazyVGrid(columns: columns, alignment: .leading) {
-            ForEach(cast.cast.filter { $0.known_for_department == "Acting" && $0.profile_path != nil }, id: \.id) { member in
-                VStack {
-                    if let image = member.profile_path {
-                        AsyncImage(url: URL(string: apiManager.posterPath + "w185" + image)) { result in
-                            result.image?
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
+            .padding()
+            ScrollView (.horizontal, showsIndicators: false) {
+                if let castMembers = apiManager.cast?.cast {
+                    Card(items: castMembers) {person in
+                        VStack {
+                            VStack {
+                                if let path = person.profile_path {
+                                    AsyncImage(url: URL(string: apiManager.posterPath + "w185/" + path)) {result in
+                                        result.image?
+                                            .resizable()
+                                            .scaledToFit()
+                                            .cornerRadius(15)
+                                    }
+                                } else {
+                                    Image(systemName: "person")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .cornerRadius(15)
+                                }
+                            }
+                            .frame(width: 144, height: 210)
+                            .background(.gray)
+                            .cornerRadius(15)
+                            VStack {
+                                HStack {
+                                    Text(person.name)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text(person.known_for_department)
+                                    Spacer()
+                                }
+                            }
+                            .frame(width: 144)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
                         }
-                        .frame(width: 100, height: 100)
                     }
-                    VStack {
-                        Text("\(member.name)")
-                        Text("\(member.character)")
-                            .foregroundStyle(.gray)
-                    }
-                    .lineLimit(1)
                 }
             }
+            .padding(.horizontal, 20)
         }
-        .padding()
     }
 }

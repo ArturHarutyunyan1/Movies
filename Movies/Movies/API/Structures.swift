@@ -8,7 +8,7 @@
 import Foundation
 
 struct Popular: Codable {
-    struct Results: Codable {
+    struct Results: Codable, Identifiable {
         var id: Int
         var backdrop_path: String
         var poster_path: String
@@ -68,8 +68,8 @@ struct Reviews: Codable {
     var total_results: Int
 }
 
-struct CastResults: Codable {
-    struct Cast: Codable {
+struct CastResults: Codable, Identifiable {
+    struct Cast: Codable, Identifiable {
         var id: Int
         var known_for_department: String
         var name: String
@@ -79,4 +79,22 @@ struct CastResults: Codable {
     }
     var cast: [Cast]
     var id: Int
+}
+
+struct ActorDetails: Codable {
+    struct Results: Codable {
+        struct KnownFor: Codable {
+            var id: Int
+            var title: String?
+            var name: String?
+            var poster_path: String?
+        }
+        var id: Int
+        var name: String
+        var original_name: String
+        var popularity: Double
+        var profile_path: String?
+        var known_for: [KnownFor]
+    }
+    var results: [Results]
 }
