@@ -14,85 +14,106 @@ struct ActorDetailsView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 16) {
-                if let actor = apiManager.actor, let actorDetail = actor.results.first {
-                    ScrollView(showsIndicators: false) {
-                        VStack(spacing: 24) {
-                            // Actor Image
-                            if let profilePath = actorDetail.profile_path {
-                                AsyncImage(url: URL(string: apiManager.posterPath + "/w1280" + profilePath)) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(height: 300)
-                                        .clipped()
-                                        .cornerRadius(15)
-                                        .shadow(radius: 5)
-                                } placeholder: {
-                                    ProgressView()
+            VStack {
+                ScrollView (.vertical, showsIndicators: false) {
+                    if let actor = apiManager.actor?.results {
+                        VStack {
+                            if let path = actor.first?.profile_path {
+                                VStack {
+                                    AsyncImage (url: URL(string: apiManager.posterPath + "w500/" + path)) {result in
+                                        result.image?
+                                            .resizable()
+                                            .scaledToFill()
+                                            .cornerRadius(15)
+                                    }
                                 }
+                            } else {
+                                Image(systemName: "person")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .cornerRadius(15)
+                                    .frame(width: geometry.size.width, height: 500)
+                                    .background(.gray)
                             }
-                            
-                            // Actor Info
-                            VStack(alignment: .leading, spacing: 8) {
+                        }
+                        .frame(width: geometry.size.width)
+                        .cornerRadius(15)
+                        VStack {
+                            if let name = actor.first?.name,
+                               let rating = actor.first?.popularity,
+                               let role = actor.first?.known_for_department {
                                 HStack {
-                                    Text("\(actorDetail.name), Actor")
-                                        .font(.title2.bold())
-                                    Spacer()
-                                    Image(systemName: "star.fill")
-                                        .foregroundColor(.orange)
-                                    Text("\(actorDetail.popularity, specifier: "%.1f")")
-                                        .foregroundColor(.orange)
-                                        .font(.subheadline)
+                                    Text("\(name), \(role)")
+                                    Image(systemName: "star")
+                                        .foregroundStyle(.orange)
+                                    Text("\(rating, specifier: "%.1f")")
+                                        .foregroundStyle(.orange)
                                 }
-                                
-                                // Known For Section
-                                Text("Known for")
-                                    .font(.title3.bold())
-                                    .padding(.vertical, 4)
-                                
-                                // Works Grid
-                                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], spacing: 16) {
-                                    ForEach(actor.results, id: \.id) { result in
-                                        ForEach(result.known_for, id: \.id) { work in
-                                            NavigationLink() {
-                                                DetailsView(id: work.id)
-                                                    .navigationTransition(.zoom(sourceID: work.id, in: animation))
-                                            } label: {
-                                                VStack(spacing: 8) {
-                                                    if let path = work.poster_path {
-                                                        AsyncImage(url: URL(string: apiManager.posterPath + "/w500/" + path)) { image in
-                                                            image
-                                                                .resizable()
-                                                                .scaledToFill()
-                                                                .frame(width: 144, height: 210)
-                                                                .clipped()
-                                                                .cornerRadius(10)
-                                                        } placeholder: {
-                                                            ProgressView()
+                                .font(.custom("Poppins-Bold", size: 25))
+                            }
+                        }
+                        VStack {
+                            HStack {
+                                Text("Known For")
+                                    .font(.custom("Poppins-Bold", size: 25))
+                                Spacer()
+                            }
+                            .padding()
+                            ScrollView (.horizontal, showsIndicators: false) {
+                                if let results = apiManager.actor?.results {
+                                    let knownMovies = results.flatMap {$0.known_for}
+                                    Card(items: knownMovies) { item in
+                                        NavigationLink() {
+                                            DetailsView(id: item.id)
+                                                .navigationTransition(.zoom(sourceID: item.id, in: animation))
+                                        } label: {
+                                            VStack {
+                                                VStack {
+                                                    if let path = item.poster_path {
+                                                        VStack {
+                                                            AsyncImage (url: URL(string: apiManager.posterPath + "w500/" + path)) {result in
+                                                                result.image?
+                                                                    .resizable()
+                                                                    .scaledToFill()
+                                                                    .cornerRadius(15)
+                                                            }
                                                         }
+                                                    } else {
+                                                        Image(systemName: "film")
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .cornerRadius(15)
+                                                            .frame(width: 144, height: 210)
+                                                            .background(.gray)
                                                     }
-                                                    Text(work.title ?? work.name ?? "")
-                                                        .font(.caption)
-                                                        .multilineTextAlignment(.center)
                                                 }
-                                                .matchedTransitionSource(id: work.id, in: animation)
+                                                .frame(width: 144, height: 210)
+                                                HStack {
+                                                    if let title = item.title {
+                                                        Text("\(title)")
+                                                    }
+                                                    if let name = item.name {
+                                                        Text("\(name)")
+                                                    }
+                                                    Spacer()
+                                                }
+                                                .frame(width: 144)
+                                                .lineLimit(1)
+                                                .truncationMode(.tail)
                                             }
+                                            .foregroundStyle(.white)
+                                            .matchedTransitionSource(id: item.id, in: animation)
                                         }
                                     }
                                 }
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, 20)
                         }
-                        .padding(.vertical)
                     }
-                } else {
-                    Text("Nothing found")
-                        .foregroundColor(.white)
                 }
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
-            .background(Color("customBlue"))
+            .background(.customBlue)
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {

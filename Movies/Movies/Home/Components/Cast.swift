@@ -22,38 +22,46 @@ struct Cast: View {
             ScrollView (.horizontal, showsIndicators: false) {
                 if let castMembers = apiManager.cast?.cast {
                     Card(items: castMembers) {person in
-                        VStack {
+                        NavigationLink() {
+                            ActorDetailsView(name: person.name)
+                                .navigationTransition(.zoom(sourceID: person.name, in: animation))
+                        } label: {
                             VStack {
-                                if let path = person.profile_path {
-                                    AsyncImage(url: URL(string: apiManager.posterPath + "w185/" + path)) {result in
-                                        result.image?
+                                VStack {
+                                    if let path = person.profile_path {
+                                        AsyncImage(url: URL(string: apiManager.posterPath + "w185/" + path)) {result in
+                                            result.image?
+                                                .resizable()
+                                                .scaledToFit()
+                                                .cornerRadius(15)
+                                        }
+                                    } else {
+                                        Image(systemName: "person")
                                             .resizable()
                                             .scaledToFit()
                                             .cornerRadius(15)
+                                            .frame(width: 144, height: 210)
+                                            .background(.gray)
                                     }
-                                } else {
-                                    Image(systemName: "person")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .cornerRadius(15)
                                 }
+                                .frame(width: 144, height: 210)
+                                .cornerRadius(15)
+                                VStack {
+                                    HStack {
+                                        Text(person.name)
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text(person.known_for_department)
+                                        Spacer()
+                                    }
+                                }
+                                .frame(width: 144)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
                             }
-                            .frame(width: 144, height: 210)
-                            .background(.gray)
-                            .cornerRadius(15)
-                            VStack {
-                                HStack {
-                                    Text(person.name)
-                                    Spacer()
-                                }
-                                HStack {
-                                    Text(person.known_for_department)
-                                    Spacer()
-                                }
-                            }
-                            .frame(width: 144)
-                            .lineLimit(1)
-                            .truncationMode(.tail)
+                            .foregroundStyle(.white)
+                            .matchedTransitionSource(id: person.name, in: animation)
                         }
                     }
                 }

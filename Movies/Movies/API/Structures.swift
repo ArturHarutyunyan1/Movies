@@ -82,8 +82,8 @@ struct CastResults: Codable, Identifiable {
 }
 
 struct ActorDetails: Codable {
-    struct Results: Codable {
-        struct KnownFor: Codable {
+    struct Results: Codable, Identifiable {
+        struct KnownFor: Codable, Identifiable {
             var id: Int
             var title: String?
             var name: String?
@@ -95,6 +95,7 @@ struct ActorDetails: Codable {
         var popularity: Double
         var profile_path: String?
         var known_for: [KnownFor]
+        var known_for_department: String
     }
     var results: [Results]
 }
