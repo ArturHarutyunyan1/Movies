@@ -7,50 +7,52 @@
 
 import SwiftUI
 
-enum Views {
-    case movies
-    case shows
-    case saved
-}
-
 struct HomeView: View {
     @EnvironmentObject private var authenticationManager: AuthenticationManager
     @EnvironmentObject private var apiManager: ApiManager
     @State private var chosenView: Views = .movies
     @State private var searchText: String = ""
     @FocusState private var isSearchFocused: Bool
+    
     var body: some View {
-        GeometryReader {geometry in
+        GeometryReader { geometry in
             NavigationStack {
-                ScrollView (.vertical, showsIndicators: false) {
-                    if isSearchFocused {
-                        SearchView(searchText: $searchText, geometry: geometry)
-                    } else {
-                        switch chosenView {
-                        case .movies:
-                            Movies(geometry: geometry)
-                        case .shows:
-                            Shows(geometry: geometry)
-                        case .saved:
-                            Saved(geometry: geometry)
+                content(using: geometry)
+                    .toolbar {
+                        ToolbarItem(placement: .bottomBar) {
+                            BottomBar(geometry: geometry, chosenView: $chosenView)
                         }
                     }
-                }
-                .searchable(text: $searchText, prompt: "Search for a movie, show or a person")
-                .searchFocused($isSearchFocused)
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        BottomBar(geometry: geometry, chosenView: $chosenView)
-                    }
-                }
-                .background(.customBlue)
+                    .background(.customBlue)
             }
         }
-        .onAppear() {
-            Task {
-                await apiManager.getPopularMovies()
+        .task {
+            await apiManager.getPopularMovies()
+        }
+    }
+    
+    @ViewBuilder
+    private func content(using geometry: GeometryProxy) -> some View {
+        if chosenView == .search {
+            SearchView(geometry: geometry)
+        } else {
+            ScrollView(.vertical, showsIndicators: false) {
+                currentContent(using: geometry)
             }
         }
     }
-}
 
+    @ViewBuilder
+    private func currentContent(using geometry: GeometryProxy) -> some View {
+        switch chosenView {
+        case .movies:
+            Movies(geometry: geometry)
+        case .shows:
+            Shows(geometry: geometry)
+        case .saved:
+            Saved(geometry: geometry)
+        default:
+            EmptyView()
+        }
+    }
+}

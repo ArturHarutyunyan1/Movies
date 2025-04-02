@@ -131,10 +131,10 @@ class ApiManager: ObservableObject {
     @MainActor
     func getSearchResults(for query: String) async {
         do {
+            self.search = nil
             let formattedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
             let decodedData: SearchResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/search/multi?query=\(formattedQuery)&api_key=\(apiKey)", type: SearchResults.self)
             self.search = decodedData
-            print(self.search)
         } catch {
             handleError(error: error)
         }
