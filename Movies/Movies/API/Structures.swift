@@ -99,3 +99,17 @@ struct ActorDetails: Codable {
     }
     var results: [Results]
 }
+
+struct SearchResults: Codable {
+    struct Results: Codable, Identifiable {
+        var id: Int
+        var name: String?
+        var title: String?
+        var poster_path: String?
+        var profile_path: String?
+        var media_type: String?
+        var known_for_department: String?
+    }
+    var results: [Results]
+    var page: Int
+}

@@ -21,6 +21,7 @@ class ApiManager: ObservableObject {
     @Published var reviews: Reviews?
     @Published var cast: CastResults?
     @Published var actor: ActorDetails?
+    @Published var search: SearchResults?
     @Published var errorMessage: String = ""
     @Published var posterPath: String
     private var apiKey: String
@@ -122,6 +123,18 @@ class ApiManager: ObservableObject {
             let decodedData: ActorDetails = try await makeRequest(endpoint: "https://api.themoviedb.org/3/search/person?query=\(formattedName)&api_key=\(apiKey)", type: ActorDetails.self)
             self.actor = decodedData
             print(self.actor ?? "NIGGER")
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getSearchResults(for query: String) async {
+        do {
+            let formattedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+            let decodedData: SearchResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/search/multi?query=\(formattedQuery)&api_key=\(apiKey)", type: SearchResults.self)
+            self.search = decodedData
+            print(self.search)
         } catch {
             handleError(error: error)
         }

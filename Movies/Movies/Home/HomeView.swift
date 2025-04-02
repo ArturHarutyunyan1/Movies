@@ -17,58 +17,30 @@ struct HomeView: View {
     @EnvironmentObject private var authenticationManager: AuthenticationManager
     @EnvironmentObject private var apiManager: ApiManager
     @State private var chosenView: Views = .movies
+    @State private var searchText: String = ""
+    @FocusState private var isSearchFocused: Bool
     var body: some View {
         GeometryReader {geometry in
             NavigationStack {
                 ScrollView (.vertical, showsIndicators: false) {
-                    switch chosenView {
-                    case .movies:
-                        Movies(geometry: geometry)
-                    case .shows:
-                        Shows(geometry: geometry)
-                    case .saved:
-                        Saved(geometry: geometry)
+                    if isSearchFocused {
+                        SearchView(searchText: $searchText, geometry: geometry)
+                    } else {
+                        switch chosenView {
+                        case .movies:
+                            Movies(geometry: geometry)
+                        case .shows:
+                            Shows(geometry: geometry)
+                        case .saved:
+                            Saved(geometry: geometry)
+                        }
                     }
                 }
+                .searchable(text: $searchText, prompt: "Search for a movie, show or a person")
+                .searchFocused($isSearchFocused)
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
-                        HStack {
-                            Spacer()
-                            VStack {
-                                Image(systemName: "movieclapper")
-                                Text("Movies")
-                            }
-                            .foregroundStyle(chosenView == .movies ? .foregroundBlue : .white)
-                            .onTapGesture {
-                                withAnimation {
-                                    chosenView = .movies
-                                }
-                            }
-                            Spacer()
-                            VStack {
-                                Image(systemName: "tv")
-                                Text("Shows")
-                            }
-                            .foregroundStyle(chosenView == .shows ? .foregroundBlue : .white)
-                            .onTapGesture {
-                                withAnimation {
-                                    chosenView = .shows
-                                }
-                            }
-                            Spacer()
-                            VStack {
-                                Image(systemName: "bookmark")
-                                Text("Bookmarks")
-                            }
-                            .foregroundStyle(chosenView == .saved ? .foregroundBlue : .white)
-                            .onTapGesture {
-                                withAnimation {
-                                    chosenView = .saved
-                                }
-                            }
-                            Spacer()
-                        }
-                        .frame(width: geometry.size.width)
+                        BottomBar(geometry: geometry, chosenView: $chosenView)
                     }
                 }
                 .background(.customBlue)

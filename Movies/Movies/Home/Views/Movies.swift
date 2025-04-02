@@ -11,5 +11,23 @@ struct Movies: View {
     var geometry: GeometryProxy
     var body: some View {
         PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
+        PopularMovies(geometry: geometry)
     }
 }
