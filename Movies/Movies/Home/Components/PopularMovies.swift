@@ -14,6 +14,12 @@ struct PopularMovies: View {
     var geometry: GeometryProxy
     var body: some View {
         VStack {
+            HStack {
+                Text("Popular Movies")
+                    .font(.custom("Poppins-Bold", size: 25))
+                Spacer()
+            }
+            .padding()
             ScrollView (.horizontal, showsIndicators: false) {
                 if let movies = apiManager.popular?.results {
                     Card(items: movies) { movie in
@@ -23,10 +29,12 @@ struct PopularMovies: View {
                         } label: {
                             VStack {
                                 AsyncImage(url: URL(string: apiManager.posterPath + "/w500/" + movie.poster_path)) {result in
-                                    result.image?
+                                    result
                                         .resizable()
                                         .scaledToFit()
                                         .cornerRadius(15)
+                                } placeholder: {
+                                    ProgressView()
                                 }
                                 .frame(width: 144, height: 210)
                                 HStack{

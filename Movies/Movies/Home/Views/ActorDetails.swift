@@ -21,10 +21,12 @@ struct ActorDetailsView: View {
                             if let path = actor.first?.profile_path {
                                 VStack {
                                     AsyncImage (url: URL(string: apiManager.posterPath + "w500/" + path)) {result in
-                                        result.image?
+                                        result
                                             .resizable()
                                             .scaledToFill()
                                             .cornerRadius(15)
+                                    } placeholder: {
+                                        ProgressView()
                                     }
                                 }
                             } else {
@@ -72,10 +74,12 @@ struct ActorDetailsView: View {
                                                     if let path = item.poster_path {
                                                         VStack {
                                                             AsyncImage (url: URL(string: apiManager.posterPath + "w500/" + path)) {result in
-                                                                result.image?
+                                                                result
                                                                     .resizable()
                                                                     .scaledToFill()
                                                                     .cornerRadius(15)
+                                                            } placeholder: {
+                                                                ProgressView()
                                                             }
                                                         }
                                                     } else {

@@ -16,19 +16,23 @@ struct DetailsView: View {
                 if let details = apiManager.details {
                     VStack {
                         AsyncImage(url: URL(string: apiManager.posterPath + "/w1280/" + details.backdrop_path)) {result in
-                            result.image?
+                            result
                                 .resizable()
                                 .scaledToFit()
+                        } placeholder: {
+                            ProgressView()
                         }
                     }
                     .frame(height: 300)
                     HStack {
                         VStack {
                             AsyncImage(url: URL(string: apiManager.posterPath + "/w500/" + details.poster_path)) {result in
-                                result.image?
+                                result
                                     .resizable()
                                     .scaledToFit()
                                     .cornerRadius(15)
+                            } placeholder: {
+                                ProgressView()
                             }
                         }
                         .frame(width: 144, height: 210)
@@ -87,8 +91,6 @@ struct DetailsView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .background(.customBlue)
-        .navigationTitle("\(apiManager.details?.original_title ?? "")")
-        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .onAppear {
             Task {

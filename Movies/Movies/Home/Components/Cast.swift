@@ -30,10 +30,12 @@ struct Cast: View {
                                 VStack {
                                     if let path = person.profile_path {
                                         AsyncImage(url: URL(string: apiManager.posterPath + "w185/" + path)) {result in
-                                            result.image?
+                                            result
                                                 .resizable()
                                                 .scaledToFit()
                                                 .cornerRadius(15)
+                                        } placeholder: {
+                                            ProgressView()
                                         }
                                     } else {
                                         Image(systemName: "person")
