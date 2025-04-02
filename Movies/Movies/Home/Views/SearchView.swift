@@ -16,14 +16,16 @@ struct SearchView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack {
+            VStack(spacing: 16) {
                 if isLoading {
                     ProgressView("Searching...")
+                        .padding()
                 }
+                
                 if let searchResults = apiManager.search {
-                    VStack {
+                    VStack(spacing: 16) {
                         if searchResults.results.contains(where: { $0.media_type == "movie" }) {
-                            Text("Movie")
+                            MoviesView(geometry: geometry)
                         }
                         if searchResults.results.contains(where: { $0.media_type == "tv" }) {
                             Text("Show")
@@ -32,12 +34,13 @@ struct SearchView: View {
                             People(geometry: geometry)
                         }
                     }
+                    .padding(.horizontal)
                 }
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .searchable(text: $searchText, prompt: "Search for a movie, show or a person") // Moved here
-        .frame(width: geometry.size.width, height: geometry.size.height)
+        .searchable(text: $searchText, prompt: "Search for a movie, show or a person")
+        .searchFocused($isSearchFocused)
         .background(.customBlue)
         .onChange(of: searchText) {
             Task {
