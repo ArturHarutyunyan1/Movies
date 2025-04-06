@@ -10,24 +10,11 @@ import SwiftUI
 struct Movies: View {
     var geometry: GeometryProxy
     var body: some View {
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
-        PopularMovies(geometry: geometry)
+        VStack {
+            ScrollView (.vertical, showsIndicators: false) {
+                PopularMovies(geometry: geometry)
+            }
+        }
+//        .background(.customBlue)
     }
 }

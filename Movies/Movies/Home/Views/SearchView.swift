@@ -10,47 +10,31 @@ import SwiftUI
 struct SearchView: View {
     @EnvironmentObject private var apiManager: ApiManager
     @State private var searchText: String = ""
-    @State private var isLoading: Bool = false
-    @FocusState private var isSearchFocused: Bool
+    @State private var isActive: Bool = false
     var geometry: GeometryProxy
-
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 16) {
-                if isLoading {
-                    ProgressView("Searching...")
-                        .padding()
-                }
-                
-                if let searchResults = apiManager.search {
-                    VStack(spacing: 16) {
-                        if searchResults.results.contains(where: { $0.media_type == "movie" }) {
-                            MoviesView(geometry: geometry)
+        VStack {
+            HStack {
+                Image(systemName: "magnifyingglass")
+                TextField("", text: $searchText, prompt: Text("Search for a movie, series or a person").foregroundStyle(.white))
+                Spacer()
+                if isActive {
+                    Image(systemName: "x.circle")
+                        .onTapGesture {
+                            searchText = ""
+                            isActive = false
                         }
-                        if searchResults.results.contains(where: { $0.media_type == "tv" }) {
-                            Text("Show")
-                        }
-                        if searchResults.results.contains(where: { $0.media_type == "person" }) {
-                            People(geometry: geometry)
-                        }
-                    }
-                    .padding(.horizontal)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(width: geometry.size.width * 0.9, height: 50)
         }
-        .searchable(text: $searchText, prompt: "Search for a movie, show or a person")
-        .searchFocused($isSearchFocused)
+        .frame(width: geometry.size.width, height: 50)
         .background(.customBlue)
         .onChange(of: searchText) {
-            Task {
-                if searchText.count > 3 {
-                    isLoading = true
-                    await apiManager.getSearchResults(for: searchText)
-                    isLoading = false
-                } else {
-                    apiManager.search = nil
-                }
+            if searchText.count > 0 {
+                isActive = true
+            } else {
+                isActive = false
             }
         }
     }

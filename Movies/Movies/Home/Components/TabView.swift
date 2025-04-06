@@ -29,7 +29,7 @@ struct TabViewModel: View {
             }
             switch chosenTab {
             case .overview:
-                Overview(details: details.overview)
+                Overview(details: details.overview ?? "")
             case .reviews:
                 ReviewsView(reviews: reviews)
             case .cast:

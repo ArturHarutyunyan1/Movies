@@ -104,4 +104,3 @@ struct DetailsView: View {
         }
     }
 }
-

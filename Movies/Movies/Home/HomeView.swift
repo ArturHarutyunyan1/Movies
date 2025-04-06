@@ -17,42 +17,31 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
-                content(using: geometry)
-                    .toolbar {
-                        ToolbarItem(placement: .bottomBar) {
-                            BottomBar(geometry: geometry, chosenView: $chosenView)
-                        }
+                VStack(spacing: 0) {
+                    SearchView(geometry: geometry)
+                    TabView(selection: $chosenView) {
+                        Movies(geometry: geometry)
+                            .tag(Views.movies)
+                        Shows()
+                            .tag(Views.shows)
+                        Saved(geometry: geometry)
+                            .tag(Views.saved)
                     }
-                    .background(.customBlue)
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .animation(.easeInOut(duration: 0.3), value: chosenView)
+                }
+                .background(.customBlue)
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        BottomBar(geometry: geometry, chosenView: $chosenView)
+                    }
+                }
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
+        .background(.customBlue)
         .task {
             await apiManager.getPopularMovies()
-        }
-    }
-    
-    @ViewBuilder
-    private func content(using geometry: GeometryProxy) -> some View {
-        if chosenView == .search {
-            SearchView(geometry: geometry)
-        } else {
-            ScrollView(.vertical, showsIndicators: false) {
-                currentContent(using: geometry)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func currentContent(using geometry: GeometryProxy) -> some View {
-        switch chosenView {
-        case .movies:
-            Movies(geometry: geometry)
-        case .shows:
-            Shows(geometry: geometry)
-        case .saved:
-            Saved(geometry: geometry)
-        default:
-            EmptyView()
         }
     }
 }

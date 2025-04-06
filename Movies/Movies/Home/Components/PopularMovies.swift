@@ -24,7 +24,7 @@ struct PopularMovies: View {
                 if let movies = apiManager.popular?.results {
                     Card(items: movies) { movie in
                         NavigationLink() {
-                            DetailsView(id: movie.id)
+                            DetailsView(id: movie.id )
                                 .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                         } label: {
                             VStack {

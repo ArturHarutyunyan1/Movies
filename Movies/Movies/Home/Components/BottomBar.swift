@@ -19,6 +19,7 @@ struct BottomBar: View {
     @Binding var chosenView: Views
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Spacer()
                 VStack {
