@@ -23,7 +23,7 @@ struct MoviesView: View {
                 if let movies = apiManager.search?.results.filter({$0.media_type == "movie"}) {
                     Card(items: movies) { movie in
                         NavigationLink() {
-                            DetailsView(id: movie.id)
+                            DetailsView(id: movie.id, type: "movie")
                                 .navigationTransition(.zoom(sourceID: movie.id, in: animation))
                         } label: {
                             VStack {

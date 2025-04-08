@@ -113,9 +113,9 @@ class ApiManager: ObservableObject {
     }
     
     @MainActor
-    func getCast(for id: Int) async {
+    func getCast(for id: Int, with: String) async {
         do {
-            let decodedData: CastResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/\(id)/credits?api_key=\(apiKey)", type: CastResults.self)
+            let decodedData: CastResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/\(with)/\(id)/credits?api_key=\(apiKey)", type: CastResults.self)
             self.cast = decodedData
         } catch {
             handleError(error: error)

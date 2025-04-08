@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailsView: View {
     @EnvironmentObject private var apiManager: ApiManager
     var id: Int
+    var type: String
     var body: some View {
         GeometryReader { geometry in
             ScrollView (.vertical, showsIndicators: false) {
@@ -114,10 +115,9 @@ struct DetailsView: View {
             Task {
                 apiManager.details = nil
                 apiManager.cast = nil
-                apiManager.reviews = nil
-                await apiManager.getDetails(for: id, with: "movie")
-                await apiManager.getCast(for: id)
-                await apiManager.getReviews(for: id)
+                apiManager.showDetails = nil
+                await apiManager.getDetails(for: id, with: type)
+                await apiManager.getCast(for: id, with: type)
             }
         }
     }

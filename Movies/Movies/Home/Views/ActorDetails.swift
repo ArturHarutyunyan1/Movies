@@ -66,7 +66,7 @@ struct ActorDetailsView: View {
                                     let knownMovies = results.flatMap {$0.known_for}
                                     Card(items: knownMovies) { item in
                                         NavigationLink() {
-                                            DetailsView(id: item.id)
+                                            DetailsView(id: item.id, type: "movie")
                                                 .navigationTransition(.zoom(sourceID: item.id, in: animation))
                                         } label: {
                                             VStack {

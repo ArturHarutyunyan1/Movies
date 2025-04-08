@@ -59,11 +59,11 @@ struct ShowDetails: Codable {
         var vote_average: Double
     }
     var original_name: String
-    var poster_path: String?
+    var poster_path: String
     var overview: String
     var tagline: String
-    var backdrop_path: String?
     var vote_average: Double
+    var first_air_date: String
     var episode_run_time: [Int]
     var created_by: [CreatedBy]
     var genres: [Genres]
