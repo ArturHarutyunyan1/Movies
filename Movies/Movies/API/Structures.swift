@@ -43,6 +43,33 @@ struct Details: Codable {
     var vote_count: Int
 }
 
+struct ShowDetails: Codable {
+    struct CreatedBy: Codable {
+        var id: Int
+        var name: String
+    }
+    struct Genres: Codable {
+        var id: Int
+        var name: String
+    }
+    struct Seasons: Codable, Identifiable {
+        var id: Int
+        var overview: String?
+        var poster_path: String?
+        var vote_average: Double
+    }
+    var original_name: String
+    var poster_path: String?
+    var overview: String
+    var tagline: String
+    var backdrop_path: String?
+    var vote_average: Double
+    var episode_run_time: [Int]
+    var created_by: [CreatedBy]
+    var genres: [Genres]
+    var seasons: [Seasons]
+}
+
 struct Reviews: Codable {
     struct ReviewResult: Codable {
         struct AuthorDetails: Codable {

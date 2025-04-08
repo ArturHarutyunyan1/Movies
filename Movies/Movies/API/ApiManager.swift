@@ -18,6 +18,7 @@ enum ApiCallError: Error {
 class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var details: Details?
+    @Published var showDetails: ShowDetails?
     @Published var reviews: Reviews?
     @Published var cast: CastResults?
     @Published var actor: ActorDetails?
@@ -87,10 +88,15 @@ class ApiManager: ObservableObject {
     }
     
     @MainActor
-    func getDetails(for id: Int) async {
+    func getDetails(for id: Int, with type: String) async {
         do {
-            let decodedData: Details = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/\(String(id))?api_key=\(apiKey)", type: Details.self)
-            self.details = decodedData
+            if type == "movie" {
+                let decodedData: Details = try await makeRequest(endpoint: "https://api.themoviedb.org/3/\(type)/\(String(id))?api_key=\(apiKey)", type: Details.self)
+                self.details = decodedData
+            } else {
+                let decodedData: ShowDetails = try await makeRequest(endpoint: "https://api.themoviedb.org/3/\(type)/\(String(id))?api_key=\(apiKey)", type: ShowDetails.self)
+                self.showDetails = decodedData
+            }
         } catch {
             handleError(error: error)
         }

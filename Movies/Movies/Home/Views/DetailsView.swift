@@ -11,96 +11,141 @@ struct DetailsView: View {
     @EnvironmentObject private var apiManager: ApiManager
     var id: Int
     var body: some View {
-        GeometryReader {geometry in
+        GeometryReader { geometry in
             ScrollView (.vertical, showsIndicators: false) {
                 if let details = apiManager.details {
-                    VStack {
-                        AsyncImage(url: URL(string: apiManager.posterPath + "/w1280/" + details.backdrop_path)) {result in
+                    ZStack {
+                        AsyncImage(url: URL(string: "\(apiManager.posterPath)/w1280/\(details.poster_path)")) {result in
                             result
                                 .resizable()
+                                .frame(height: geometry.size.height * 0.8)
                                 .scaledToFit()
+                                .clipped()
                         } placeholder: {
                             ProgressView()
                         }
                     }
-                    .frame(height: 300)
-                    HStack {
+                    .frame(height: geometry.size.height * 0.8)
+                    VStack {
                         VStack {
-                            AsyncImage(url: URL(string: apiManager.posterPath + "/w500/" + details.poster_path)) {result in
-                                result
-                                    .resizable()
-                                    .scaledToFit()
-                                    .cornerRadius(15)
-                            } placeholder: {
-                                ProgressView()
-                            }
-                        }
-                        .frame(width: 144, height: 210)
-                        VStack {
+//                            MARK: - Rating
                             HStack {
-                                Text("\(details.original_title)")
-                                    .font(.custom("Poppins-Bold", size: 25))
-                                Spacer()
-                            }
-                            HStack {
-                                Image(systemName: "calendar")
-                                if let releaseDate = details.release_date.split(separator: "-").first {
-                                    Text("\(releaseDate)")
-                                }
-                                Spacer()
-                            }
-                            HStack {
-                                Image(systemName: "star")
+                                Image(systemName: "star.fill")
+                                    .foregroundStyle(.yellow)
                                 Text("\(details.vote_average, specifier: "%.1f")")
                                 Spacer()
                             }
-                            .foregroundStyle(.orange)
+//                           MARK: - Title, tagline
                             HStack {
-                                Image(systemName: "clock")
-                                Text("\(details.runtime) Minutes")
-                                Spacer()
-                            }
-                            HStack {
-                                Image(systemName: "movieclapper")
-                                VStack(alignment: .leading) {
-                                    let columns = [GridItem(.adaptive(minimum: 80), spacing: 8)]
-                                    LazyVGrid(columns: columns, alignment: .leading, spacing: 8) {
-                                        ForEach(details.genres, id: \.id) { genre in
-                                            Text(genre.name)
-                                                .padding(.horizontal, 8)
-                                                .padding(.vertical, 4)
-                                                .background(Color.gray.opacity(0.2))
-                                                .cornerRadius(8)
-                                        }
+                                VStack {
+                                    HStack {
+                                        Text("\(details.original_title)")
+                                            .font(.custom("Poppins-Bold", size: 36))
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text("\(details.tagline)")
+                                        Spacer()
                                     }
                                 }
                                 Spacer()
                             }
-                            Spacer()
+//                            MARK: - Date,Runtime
+                            HStack {
+                                HStack {
+                                    Image(systemName: "calendar")
+                                    Text(getDate(dateString: details.release_date))
+                                }
+                                HStack {
+                                    Image(systemName: "clock")
+                                    Text(minutesToHours(time: details.runtime))
+                                }
+                                Spacer()
+                            }
+//                            MARK: - Genres
+                            HStack {
+                                ForEach(details.genres, id: \.id) {genre in
+                                    Text("\(genre.name) ")
+                                }
+                                Spacer()
+                            }
+//                            MARK: - Overview
+                            HStack {
+                                VStack {
+                                    HStack {
+                                        Rectangle()
+                                            .frame(width: 5, height: 10)
+                                            .background(.yellow)
+                                        Text("Overview")
+                                            .font(.custom("Poppins-semibold", size: 17))
+                                        Spacer()
+                                    }
+                                    Text("\(details.overview)")
+                                }
+                                Spacer()
+                            }
+//                            MARK: - Cast
+                            if let cast = apiManager.cast {
+                                HStack {
+                                    Cast(cast: cast)
+                                    Spacer()
+                                }
+                            }
                         }
+                        .padding()
+                        .frame(width: geometry.size.width * 0.9)
                         Spacer()
                     }
-                    if let reviews = apiManager.reviews, let cast = apiManager.cast {
-                        VStack {
-                            TabViewModel(details: details, reviews: reviews, cast: cast, geometry: geometry)
-                        }
-                    }
-                    Spacer()
+                    .frame(width: geometry.size.width)
+                    .frame(minHeight: geometry.size.height * 0.5)
+                    .background(.ultraThinMaterial)
+                    .clipShape(RoundedCorner(radius: 25, corners: [.topLeft, .topRight]))
+                    .padding(.top, -geometry.size.height * 0.1)
+                }
+                else {
+                    Text("Nothing found")
                 }
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+            .edgesIgnoringSafeArea(.all)
         }
         .background(.customBlue)
-        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden()
         .onAppear {
             Task {
                 apiManager.details = nil
-                apiManager.reviews = nil
                 apiManager.cast = nil
-                await apiManager.getDetails(for: id)
-                await apiManager.getReviews(for: id)
+                apiManager.reviews = nil
+                await apiManager.getDetails(for: id, with: "movie")
                 await apiManager.getCast(for: id)
+                await apiManager.getReviews(for: id)
             }
         }
+    }
+    private func getDate(dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateStyle = .long
+            let dateText = dateFormatter.string(from: date)
+            return dateText
+        }
+        return "Wrong date"
+    }
+    private func minutesToHours(time: Int) -> String {
+        let hour = time / 60
+        let minutes = time % 60
+        
+        return "\(hour)h \(minutes)m"
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat
+    var corners: UIRectCorner
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
     }
 }

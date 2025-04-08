@@ -12,10 +12,14 @@ struct ReviewsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Reviews")
-                .font(.custom("Poppins-Bold", size: 25))
-                .foregroundColor(.white)
-            
+            HStack {
+                Rectangle()
+                    .frame(width: 5, height: 10)
+                    .background(.yellow)
+                Text("Reviews")
+                    .font(.custom("Poppins-semibold", size: 17))
+                Spacer()
+            }
             if reviews.results.count > 0 {
                 ScrollView {
                     VStack(spacing: 16) {

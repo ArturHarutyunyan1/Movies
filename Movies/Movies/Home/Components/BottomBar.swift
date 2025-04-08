@@ -23,17 +23,6 @@ struct BottomBar: View {
             HStack {
                 Spacer()
                 VStack {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
-                }
-                .foregroundStyle(chosenView == .search ? .foregroundBlue : .white)
-                .onTapGesture {
-                    withAnimation {
-                        chosenView = .search
-                    }
-                }
-                Spacer()
-                VStack {
                     Image(systemName: chosenView == .movies ? "movieclapper.fill" : "movieclapper")
                     Text("Movies")
                 }

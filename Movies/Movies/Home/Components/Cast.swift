@@ -14,11 +14,14 @@ struct Cast: View {
     var body: some View {
         VStack {
             HStack {
+                Rectangle()
+                    .frame(width: 5, height: 10)
+                    .background(.yellow)
                 Text("Cast")
-                    .font(.custom("Poppins-Bold", size: 25))
+                    .font(.custom("Poppins-semibold", size: 17))
                 Spacer()
             }
-            .padding()
+//            .padding()
             ScrollView (.horizontal, showsIndicators: false) {
                 if let castMembers = apiManager.cast?.cast {
                     Card(items: castMembers) {person in
@@ -29,7 +32,7 @@ struct Cast: View {
                             VStack {
                                 VStack {
                                     if let path = person.profile_path {
-                                        AsyncImage(url: URL(string: apiManager.posterPath + "w185/" + path)) {result in
+                                        AsyncImage(url: URL(string: apiManager.posterPath + "w780/" + path)) {result in
                                             result
                                                 .resizable()
                                                 .scaledToFit()
@@ -68,7 +71,6 @@ struct Cast: View {
                     }
                 }
             }
-            .padding(.horizontal, 20)
         }
     }
 }

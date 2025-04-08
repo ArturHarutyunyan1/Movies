@@ -2,15 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>API_KEY</key>
+	<string>$(API_KEY)</string>
 	<key>POSTER_PATH</key>
 	<string>https://image.tmdb.org/t/p/</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string></string>
+		<string>Poppins-SemiBold.ttf</string>
 		<string>Poppins-Medium.ttf</string>
 		<string>Poppins-Bold.ttf</string>
 	</array>
-	<key>API_KEY</key>
-	<string>$(API_KEY)</string>
 </dict>
 </plist>

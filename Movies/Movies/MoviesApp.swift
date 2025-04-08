@@ -23,6 +23,7 @@ struct MoviesApp: App {
                     .environmentObject(authenticationManager)
                     .environmentObject(apiManager)
                     .preferredColorScheme(.dark)
+                    .previewInterfaceOrientation(.portrait)
             }
         }
     }
