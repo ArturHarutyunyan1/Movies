@@ -92,6 +92,9 @@ struct ShowDetailsView: View {
                                     Spacer()
                                 }
                             }
+                            if let media = apiManager.media, media.posters.count > 0 {
+                                MediaView(media: media)
+                            }
                         }
                         .padding()
                         .frame(width: geometry.size.width * 0.9)
@@ -116,8 +119,10 @@ struct ShowDetailsView: View {
                 apiManager.details = nil
                 apiManager.cast = nil
                 apiManager.showDetails = nil
+                apiManager.media = nil
                 await apiManager.getDetails(for: id, with: type)
                 await apiManager.getCast(for: id, with: type)
+                await apiManager.getMedia(for: id, type: type)
             }
         }
     }

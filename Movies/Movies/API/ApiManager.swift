@@ -23,6 +23,7 @@ class ApiManager: ObservableObject {
     @Published var cast: CastResults?
     @Published var actor: ActorDetails?
     @Published var search: SearchResults?
+    @Published var media: Media?
     @Published var errorMessage: String = ""
     @Published var posterPath: String
     private var apiKey: String
@@ -39,7 +40,7 @@ class ApiManager: ObservableObject {
     }
     
     func makeRequest<T: Decodable>(endpoint: String, type: T.Type) async throws -> T {
-        let urlString = "\(endpoint)&language=en-US&page=1"
+        let urlString = "\(endpoint)"
         print(urlString)
         guard let url = URL(string: urlString) else {
             throw ApiCallError.invalidURL
@@ -141,6 +142,16 @@ class ApiManager: ObservableObject {
             let formattedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
             let decodedData: SearchResults = try await makeRequest(endpoint: "https://api.themoviedb.org/3/search/multi?query=\(formattedQuery)&api_key=\(apiKey)", type: SearchResults.self)
             self.search = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getMedia(for id: Int, type: String) async {
+        do {
+            let decodedData: Media = try await makeRequest(endpoint: "https://api.themoviedb.org/3/\(type)/\(id)/images?api_key=\(apiKey)", type: Media.self)
+            self.media = decodedData
         } catch {
             handleError(error: error)
         }

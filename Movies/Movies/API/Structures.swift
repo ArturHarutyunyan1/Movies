@@ -140,3 +140,10 @@ struct SearchResults: Codable {
     var results: [Results]
     var page: Int
 }
+
+struct Media: Codable {
+    struct Posters: Codable {
+        var file_path: String
+    }
+    var posters: [Posters]
+}

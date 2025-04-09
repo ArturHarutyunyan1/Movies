@@ -21,7 +21,6 @@ struct Cast: View {
                     .font(.custom("Poppins-semibold", size: 17))
                 Spacer()
             }
-//            .padding()
             ScrollView (.horizontal, showsIndicators: false) {
                 if let castMembers = apiManager.cast?.cast {
                     Card(items: castMembers) {person in
