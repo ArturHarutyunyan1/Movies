@@ -14,6 +14,7 @@ struct Shows: View {
             ScrollView (.vertical, showsIndicators: false) {
                 AiringTodayView(geometry: geometry)
                 OnTheAirView(geometry: geometry)
+                PopularShowsView(geometry: geometry)
             }
         }
     }

@@ -19,6 +19,7 @@ class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var nowPlaying: NowPlaying?
     @Published var airingToday: AiringToday?
+    @Published var popularShows: PopularShows?
     @Published var onTheAir: OnTheAir?
     @Published var upcoming: Upcoming?
     @Published var details: Details?
@@ -207,6 +208,16 @@ class ApiManager: ObservableObject {
         do {
             let decodedData: OnTheAir = try await makeRequest(endpoint: "https://api.themoviedb.org/3/tv/on_the_air?api_key=\(apiKey)", type: OnTheAir.self)
             self.onTheAir = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getPopularShows() async {
+        do {
+            let decodedData: PopularShows = try await makeRequest(endpoint: "https://api.themoviedb.org/3/tv/popular?api_key=\(apiKey)", type: PopularShows.self)
+            self.popularShows = decodedData
         } catch {
             handleError(error: error)
         }
