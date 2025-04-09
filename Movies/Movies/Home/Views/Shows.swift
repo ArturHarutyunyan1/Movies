@@ -15,6 +15,7 @@ struct Shows: View {
                 AiringTodayView(geometry: geometry)
                 OnTheAirView(geometry: geometry)
                 PopularShowsView(geometry: geometry)
+                TopRatedShowView(geometry: geometry)
             }
         }
     }

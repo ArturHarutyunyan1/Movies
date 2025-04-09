@@ -48,6 +48,7 @@ struct HomeView: View {
             await apiManager.getAiringToday()
             await apiManager.getOnTheAir()
             await apiManager.getPopularShows()
+            await apiManager.getTopRatedShows()
         }
     }
 }

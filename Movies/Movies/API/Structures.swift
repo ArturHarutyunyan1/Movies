@@ -112,6 +112,21 @@ struct PopularShows: Codable {
     var results: [Results]
 }
 
+struct TopRatedShows: Codable {
+    struct Results: Codable, Identifiable {
+        var id: Int
+        var backdrop_path: String?
+        var poster_path: String?
+        var genre_ids: [Int]
+        var original_language: String
+        var name: String
+        var overview: String
+        var vote_average: Double
+        var vote_count: Int
+    }
+    var results: [Results]
+}
+
 struct Details: Codable {
     struct Genres: Codable {
         var id: Int
