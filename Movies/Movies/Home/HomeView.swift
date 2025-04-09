@@ -43,6 +43,7 @@ struct HomeView: View {
         .task {
             await apiManager.getPopularMovies()
             await apiManager.getNowPlaying()
+            await apiManager.getTopRatedMovies()
         }
     }
 }

@@ -19,6 +19,7 @@ class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var nowPlaying: NowPlaying?
     @Published var details: Details?
+    @Published var topRated: TopRated?
     @Published var showDetails: ShowDetails?
     @Published var reviews: Reviews?
     @Published var cast: CastResults?
@@ -163,6 +164,16 @@ class ApiManager: ObservableObject {
         do {
             let decodedData: NowPlaying = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)", type: NowPlaying.self)
             self.nowPlaying = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getTopRatedMovies() async {
+        do {
+            let decodedData: TopRated = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/top_rated?api_key=\(apiKey)", type: TopRated.self)
+            self.topRated = decodedData
         } catch {
             handleError(error: error)
         }

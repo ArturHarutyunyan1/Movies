@@ -13,6 +13,7 @@ struct Movies: View {
         VStack {
             ScrollView (.vertical, showsIndicators: false) {
                 NowPlayingMovies(geometry: geometry)
+                TopRatedView(geometry: geometry)
                 PopularMovies(geometry: geometry)
             }
         }
