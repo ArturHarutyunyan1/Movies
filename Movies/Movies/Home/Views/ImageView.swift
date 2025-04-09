@@ -13,6 +13,7 @@ struct ImageView: View {
     var body: some View {
         GeometryReader {geometry in
             VStack {
+                Spacer()
                 AsyncImage(url: URL(string: "\(apiManager.posterPath)/w1280/\(path)")) {image in
                     image
                         .resizable()
@@ -20,6 +21,7 @@ struct ImageView: View {
                 } placeholder: {
                     ProgressView()
                 }
+                Spacer()
             }
             .frame(width: geometry.size.width)
         }

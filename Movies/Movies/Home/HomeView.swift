@@ -42,6 +42,7 @@ struct HomeView: View {
         .background(.customBlue)
         .task {
             await apiManager.getPopularMovies()
+            await apiManager.getNowPlaying()
         }
     }
 }
