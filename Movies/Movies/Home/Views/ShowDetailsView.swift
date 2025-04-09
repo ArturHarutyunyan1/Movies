@@ -58,8 +58,10 @@ struct ShowDetailsView: View {
                                     Text(getDate(dateString: details.first_air_date))
                                 }
                                 HStack {
-                                    Image(systemName: "clock")
-                                    Text(minutesToHours(time: details.episode_run_time[0]))
+                                    if details.episode_run_time.count > 0 {
+                                        Image(systemName: "clock")
+                                        Text(minutesToHours(time: details.episode_run_time[0]))
+                                    }
                                 }
                                 Spacer()
                             }

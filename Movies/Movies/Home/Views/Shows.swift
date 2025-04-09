@@ -8,15 +8,12 @@
 import SwiftUI
 
 struct Shows: View {
+    var geometry: GeometryProxy
     var body: some View {
-        GeometryReader {geometry in
-            VStack {
-                ScrollView (.vertical, showsIndicators: false) {
-                    Text("Shows view")
-                }
+        VStack {
+            ScrollView (.vertical, showsIndicators: false) {
+                AiringTodayView(geometry: geometry)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
         }
-        .background(.customBlue)
     }
 }

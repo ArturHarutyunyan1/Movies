@@ -22,7 +22,7 @@ struct HomeView: View {
                     TabView(selection: $chosenView) {
                         Movies(geometry: geometry)
                             .tag(Views.movies)
-                        Shows()
+                        Shows(geometry: geometry)
                             .tag(Views.shows)
                         Saved(geometry: geometry)
                             .tag(Views.saved)
@@ -45,6 +45,7 @@ struct HomeView: View {
             await apiManager.getNowPlaying()
             await apiManager.getTopRatedMovies()
             await apiManager.getUpcomingMovies()
+            await apiManager.getAiringToday()
         }
     }
 }
