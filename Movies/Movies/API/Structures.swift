@@ -37,6 +37,21 @@ struct NowPlaying: Codable {
     var results: [Results]
 }
 
+struct Upcoming: Codable {
+    struct Results: Codable, Identifiable {
+        var id: Int
+        var backdrop_path: String
+        var poster_path: String
+        var genre_ids: [Int]
+        var original_language: String
+        var title: String
+        var overview: String
+        var vote_average: Double
+        var vote_count: Int
+    }
+    var results: [Results]
+}
+
 struct TopRated: Codable {
     struct Results: Codable, Identifiable {
         var id: Int

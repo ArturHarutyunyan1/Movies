@@ -18,6 +18,7 @@ enum ApiCallError: Error {
 class ApiManager: ObservableObject {
     @Published var popular: Popular?
     @Published var nowPlaying: NowPlaying?
+    @Published var upcoming: Upcoming?
     @Published var details: Details?
     @Published var topRated: TopRated?
     @Published var showDetails: ShowDetails?
@@ -174,6 +175,16 @@ class ApiManager: ObservableObject {
         do {
             let decodedData: TopRated = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/top_rated?api_key=\(apiKey)", type: TopRated.self)
             self.topRated = decodedData
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    @MainActor
+    func getUpcomingMovies() async {
+        do {
+            let decodedData: Upcoming = try await makeRequest(endpoint: "https://api.themoviedb.org/3/movie/upcoming?api_key=\(apiKey)", type: Upcoming.self)
+            self.upcoming = decodedData
         } catch {
             handleError(error: error)
         }

@@ -15,8 +15,8 @@ struct Movies: View {
                 NowPlayingMovies(geometry: geometry)
                 TopRatedView(geometry: geometry)
                 PopularMovies(geometry: geometry)
+                UpcomingView(geometry: geometry)
             }
         }
-//        .background(.customBlue)
     }
 }
