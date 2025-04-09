@@ -13,6 +13,7 @@ struct Shows: View {
         VStack {
             ScrollView (.vertical, showsIndicators: false) {
                 AiringTodayView(geometry: geometry)
+                OnTheAirView(geometry: geometry)
             }
         }
     }

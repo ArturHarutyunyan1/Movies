@@ -46,6 +46,7 @@ struct HomeView: View {
             await apiManager.getTopRatedMovies()
             await apiManager.getUpcomingMovies()
             await apiManager.getAiringToday()
+            await apiManager.getOnTheAir()
         }
     }
 }
