@@ -31,4 +31,25 @@ class DatabaseManager : ObservableObject {
             }
         }
     }
+    
+    func isMovieInBookmarks(id: Int, email: String, completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        let ref = db.collection("Bookmarks")
+        
+        ref.whereField("id", isEqualTo: id)
+            .whereField("email", isEqualTo: email)
+            .getDocuments {snapshot, error in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        print(error.localizedDescription)
+                    }
+                    completion(false)
+                }
+                if let document = snapshot?.documents, !document.isEmpty {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+    }
 }

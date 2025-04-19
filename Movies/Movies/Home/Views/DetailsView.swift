@@ -11,6 +11,7 @@ struct DetailsView: View {
     @EnvironmentObject private var apiManager: ApiManager
     @EnvironmentObject private var databaseManager: DatabaseManager
     @EnvironmentObject private var authenticationManager: AuthenticationManager
+    @State private var isBookmarked: Bool = false
     var id: Int
     var type: String
     var body: some View {
@@ -37,9 +38,13 @@ struct DetailsView: View {
                                     .foregroundStyle(.yellow)
                                 Text("\(details.vote_average, specifier: "%.1f")")
                                 Spacer()
-                                Image(systemName: "bookmark")
+                                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                                    .foregroundStyle(isBookmarked ? .yellow : .white)
                                     .onTapGesture {
-                                        databaseManager.addToBookmarks(path: details.poster_path, id: details.id, title: details.original_title, email: authenticationManager.user?.email ?? "null")
+                                        if !isBookmarked {
+                                            databaseManager.addToBookmarks(path: details.poster_path, id: details.id, title: details.original_title, email: authenticationManager.user?.email ?? "null")
+                                            isBookmarked = true
+                                        }
                                     }
                             }
 //                           MARK: - Title, tagline
@@ -128,6 +133,11 @@ struct DetailsView: View {
                 await apiManager.getDetails(for: id, with: type)
                 await apiManager.getCast(for: id, with: type)
                 await apiManager.getMedia(for: id, type: type)
+                databaseManager.isMovieInBookmarks(id: id, email: authenticationManager.user?.email ?? "") {exist in
+                    if exist {
+                        isBookmarked = true
+                    }
+                }
             }
         }
     }
