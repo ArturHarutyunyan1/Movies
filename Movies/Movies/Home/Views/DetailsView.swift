@@ -32,7 +32,7 @@ struct DetailsView: View {
                     .frame(height: geometry.size.height * 0.8)
                     VStack {
                         VStack {
-//                            MARK: - Rating
+//                            MARK: - Rating, bookmark
                             HStack {
                                 Image(systemName: "star.fill")
                                     .foregroundStyle(.yellow)
@@ -44,6 +44,9 @@ struct DetailsView: View {
                                         if !isBookmarked {
                                             databaseManager.addToBookmarks(path: details.poster_path, id: details.id, title: details.original_title, email: authenticationManager.user?.email ?? "null")
                                             isBookmarked = true
+                                        } else {
+                                            databaseManager.removeFromBookmarks(id: id, email: authenticationManager.user?.email ?? "null")
+                                            isBookmarked = false
                                         }
                                     }
                             }

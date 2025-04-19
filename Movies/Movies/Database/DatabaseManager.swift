@@ -32,6 +32,36 @@ class DatabaseManager : ObservableObject {
         }
     }
     
+    func removeFromBookmarks(id: Int, email: String) {
+        let db = Firestore.firestore()
+        let ref = db.collection("Bookmarks")
+        
+        ref.whereField("id", isEqualTo: id)
+            .whereField("email", isEqualTo: email)
+            .getDocuments {snapshot, error in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        print(error.localizedDescription)
+                    }
+                    return
+                }
+                if let documents = snapshot?.documents, !documents.isEmpty {
+                    for document in documents {
+                        let docID = document.documentID
+                        
+                        ref.document(docID).delete {error in
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    print(error.localizedDescription)
+                                }
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    
     func isMovieInBookmarks(id: Int, email: String, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         let ref = db.collection("Bookmarks")
