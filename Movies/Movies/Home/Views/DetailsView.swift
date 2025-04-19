@@ -42,7 +42,7 @@ struct DetailsView: View {
                                     .foregroundStyle(isBookmarked ? .yellow : .white)
                                     .onTapGesture {
                                         if !isBookmarked {
-                                            databaseManager.addToBookmarks(path: details.poster_path, id: details.id, title: details.original_title, email: authenticationManager.user?.email ?? "null")
+                                            databaseManager.addToBookmarks(path: details.poster_path, id: details.id, title: details.original_title, email: authenticationManager.user?.email ?? "null", type: type)
                                             isBookmarked = true
                                         } else {
                                             databaseManager.removeFromBookmarks(id: id, email: authenticationManager.user?.email ?? "null")

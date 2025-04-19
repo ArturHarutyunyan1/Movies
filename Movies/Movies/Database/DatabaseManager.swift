@@ -11,8 +11,45 @@ import FirebaseCore
 
 class DatabaseManager : ObservableObject {
     @Published var userBookmarks: [Bookmarks] = []
+    private var listener: ListenerRegistration?
     
-    func addToBookmarks(path: String, id: Int, title: String, email: String) {
+    init () {
+        getBookmarks()
+    }
+    
+    func getBookmarks() {
+        let db = Firestore.firestore()
+        let ref = db.collection("Bookmarks")
+        
+        listener?.remove()
+        
+        listener = ref.addSnapshotListener {snapshot, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    print(error.localizedDescription)
+                }
+                return
+            }
+            if let documents = snapshot?.documents, !documents.isEmpty {
+                DispatchQueue.main.async {
+                    self.userBookmarks.removeAll()
+                    for document in documents {
+                        let data = document.data()
+                        
+                        let email = data["email"] as? String ?? ""
+                        let path = data["path"] as? String ?? ""
+                        let title = data["title"] as? String ?? ""
+                        let id = data["id"] as? Int ?? 0
+                        let mediaType = data["mediaType"] as? String ?? ""
+                        
+                        self.userBookmarks.append(Bookmarks(email: email, path: path, id: id, title: title, mediaType: mediaType))
+                    }
+                }
+            }
+        }
+    }
+    
+    func addToBookmarks(path: String, id: Int, title: String, email: String, type: String) {
         let db = Firestore.firestore()
         let ref = db.collection("Bookmarks").document()
         
@@ -20,7 +57,8 @@ class DatabaseManager : ObservableObject {
             "path": path,
             "id": id,
             "title": title,
-            "email": email
+            "email": email,
+            "mediaType": type
         ]
         
         ref.setData(data) {error in

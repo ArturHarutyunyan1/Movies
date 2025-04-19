@@ -255,7 +255,9 @@ struct Media: Codable {
 }
 
 struct Bookmarks: Codable {
+    var email: String
     var path: String
     var id: Int
     var title: String
+    var mediaType: String
 }
