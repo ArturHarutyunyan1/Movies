@@ -13,6 +13,7 @@ import FirebaseAuth
 struct MoviesApp: App {
     @StateObject var authenticationManager = AuthenticationManager()
     @StateObject var apiManager = ApiManager()
+    @StateObject private var databaseManager = DatabaseManager()
     init () {
         FirebaseApp.configure()
     }
@@ -22,6 +23,7 @@ struct MoviesApp: App {
                 ContentView()
                     .environmentObject(authenticationManager)
                     .environmentObject(apiManager)
+                    .environmentObject(databaseManager)
                     .preferredColorScheme(.dark)
                     .previewInterfaceOrientation(.portrait)
             }

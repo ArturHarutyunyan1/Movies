@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DetailsView: View {
     @EnvironmentObject private var apiManager: ApiManager
+    @EnvironmentObject private var databaseManager: DatabaseManager
+    @EnvironmentObject private var authenticationManager: AuthenticationManager
     var id: Int
     var type: String
     var body: some View {
@@ -35,6 +37,10 @@ struct DetailsView: View {
                                     .foregroundStyle(.yellow)
                                 Text("\(details.vote_average, specifier: "%.1f")")
                                 Spacer()
+                                Image(systemName: "bookmark")
+                                    .onTapGesture {
+                                        databaseManager.addToBookmarks(path: details.poster_path, id: details.id, title: details.original_title, email: authenticationManager.user?.email ?? "null")
+                                    }
                             }
 //                           MARK: - Title, tagline
                             HStack {

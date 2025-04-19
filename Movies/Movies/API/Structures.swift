@@ -253,3 +253,9 @@ struct Media: Codable {
     }
     var posters: [Posters]
 }
+
+struct Bookmarks: Codable {
+    var path: String
+    var id: Int
+    var title: String
+}
