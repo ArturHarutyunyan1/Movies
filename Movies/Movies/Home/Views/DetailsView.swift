@@ -121,7 +121,7 @@ struct DetailsView: View {
                     .padding(.top, -geometry.size.height * 0.1)
                 }
                 else {
-                    Text("Nothing found")
+                    NotFound(geometry: geometry)
                 }
             }
             .edgesIgnoringSafeArea(.all)

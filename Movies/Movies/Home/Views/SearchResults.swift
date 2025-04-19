@@ -14,7 +14,7 @@ struct SearchResultsView: View {
             ScrollView (.vertical, showsIndicators: false) {
                 if let search = apiManager.search {
                     if search.results.count == 0 {
-                        Text("Nothing found")
+                        NotFound(geometry: geometry)
                     } else {
                         VStack {
                             if search.results.contains(where: {$0.media_type == "movie"}) {
