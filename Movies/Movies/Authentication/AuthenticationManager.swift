@@ -114,6 +114,7 @@ class AuthenticationManager : ObservableObject {
         do {
             try Auth.auth().signOut()
             self.user = nil
+            self.user?.email = ""
             self.isAuthenticated = false
             self.isEmailVerified = false
             self.isLoading = false
