@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ShowDetailsView: View {
     @EnvironmentObject private var apiManager: ApiManager
+    @EnvironmentObject private var databaseManager: DatabaseManager
+    @EnvironmentObject private var authenticationManager: AuthenticationManager
+    @State private var isBookmarked: Bool = false
     var id: Int
     var type: String
     var body: some View {
@@ -29,12 +32,23 @@ struct ShowDetailsView: View {
                     .frame(height: geometry.size.height * 0.8)
                     VStack {
                         VStack {
-//                            MARK: - Rating
+                            //                            MARK: - Rating, bookmark
                             HStack {
                                 Image(systemName: "star.fill")
                                     .foregroundStyle(.yellow)
                                 Text("\(details.vote_average, specifier: "%.1f")")
                                 Spacer()
+                                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                                    .foregroundStyle(isBookmarked ? .yellow : .white)
+                                    .onTapGesture {
+                                        if !isBookmarked {
+                                            databaseManager.addToBookmarks(path: details.poster_path, id: id, title: details.original_name, email: authenticationManager.user?.email ?? "null", type: type)
+                                            isBookmarked = true
+                                        } else {
+                                            databaseManager.removeFromBookmarks(id: id, email: authenticationManager.user?.email ?? "null")
+                                            isBookmarked = false
+                                        }
+                                    }
                             }
 //                           MARK: - Title, tagline
                             HStack {
@@ -125,6 +139,11 @@ struct ShowDetailsView: View {
                 await apiManager.getDetails(for: id, with: type)
                 await apiManager.getCast(for: id, with: type)
                 await apiManager.getMedia(for: id, type: type)
+                databaseManager.isMovieInBookmarks(id: id, email: authenticationManager.user?.email ?? "") {exist in
+                    if exist {
+                        isBookmarked = true
+                    }
+                }
             }
         }
     }
