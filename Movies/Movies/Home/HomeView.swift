@@ -40,15 +40,5 @@ struct HomeView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .background(.customBlue)
-        .task {
-            await apiManager.getPopularMovies()
-            await apiManager.getNowPlaying()
-            await apiManager.getTopRatedMovies()
-            await apiManager.getUpcomingMovies()
-            await apiManager.getAiringToday()
-            await apiManager.getOnTheAir()
-            await apiManager.getPopularShows()
-            await apiManager.getTopRatedShows()
-        }
     }
 }

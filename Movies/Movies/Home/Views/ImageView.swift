@@ -22,6 +22,7 @@ struct ImageView: View {
                     ProgressView()
                 }
                 Spacer()
+                Credit(geometry: geometry)
             }
             .frame(width: geometry.size.width)
         }

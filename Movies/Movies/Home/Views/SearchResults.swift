@@ -26,6 +26,7 @@ struct SearchResultsView: View {
                             if search.results.contains(where: {$0.media_type == "person"}) {
                                 People(geometry: geometry)
                             }
+                            Credit(geometry: geometry)
                         }
                     }
                 }

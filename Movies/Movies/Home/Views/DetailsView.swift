@@ -123,6 +123,7 @@ struct DetailsView: View {
                 else {
                     NotFound(geometry: geometry)
                 }
+                Credit(geometry: geometry)
             }
             .edgesIgnoringSafeArea(.all)
         }

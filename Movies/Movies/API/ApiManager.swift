@@ -44,6 +44,18 @@ class ApiManager: ObservableObject {
         }
         self.apiKey = key
         self.posterPath = poster
+        
+        Task {
+            await self.getPopularMovies()
+            await self.getNowPlaying()
+            await self.getTopRatedMovies()
+            await self.getUpcomingMovies()
+            await self.getAiringToday()
+            await self.getOnTheAir()
+            await self.getPopularShows()
+            await self.getTopRatedShows()
+        }
+        
     }
     
     func makeRequest<T: Decodable>(endpoint: String, type: T.Type) async throws -> T {

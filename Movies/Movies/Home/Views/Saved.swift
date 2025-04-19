@@ -58,6 +58,7 @@ struct Saved: View {
             } else {
                 Text("No Bookmarks")
             }
+            Credit(geometry: geometry)
         }
         .frame(width: geometry.size.width)
     }

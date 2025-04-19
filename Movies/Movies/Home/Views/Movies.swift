@@ -16,6 +16,7 @@ struct Movies: View {
                 TopRatedView(geometry: geometry)
                 PopularMovies(geometry: geometry)
                 UpcomingView(geometry: geometry)
+                Credit(geometry: geometry)
             }
         }
     }

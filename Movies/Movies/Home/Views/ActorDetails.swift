@@ -117,6 +117,7 @@ struct ActorDetailsView: View {
                                 }
                             }
                             .padding(.horizontal, 20)
+                            Credit(geometry: geometry)
                         }
                     }
                 }

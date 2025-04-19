@@ -16,6 +16,7 @@ struct Shows: View {
                 OnTheAirView(geometry: geometry)
                 PopularShowsView(geometry: geometry)
                 TopRatedShowView(geometry: geometry)
+                Credit(geometry: geometry)
             }
         }
     }
